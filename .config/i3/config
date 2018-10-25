@@ -1,0 +1,192 @@
+#-- Definitions --#
+set $mod Mod1
+
+#-- Font config --#
+font xft:GohuFont
+ 
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+#-- Keybinds --#
+bindsym $mod+Return exec termite 	
+bindsym $mod+Shift+q kill
+bindsym $mod+d exec rofi -show run -theme android_notification # App search
+
+# Change focus
+bindsym $mod+h focus left	
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# Move focused window
+bindsym $mod+Shift+h move left 
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# Window splits 
+bindsym $mod+n split h 
+bindsym $mod+v split v  
+
+# Fullscreen focused window
+bindsym $mod+f fullscreen toggle 
+
+# Layouts 
+bindsym $mod+s layout stacking 
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle floating windows 
+bindsym $mod+Shift+space floating toggle 
+
+# Toggle floating focus 
+bindsym $mod+space focus mode_toggle 
+ 
+# focus the parent container
+# bindsym $mod+a focus parent
+ 
+# focus the child container
+#bindsym $mod+d focus child
+
+#-- Workspace Names --# 
+set $ws1 "1" 
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+ 
+bindsym $mod+1 workspace $ws1 
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+ 
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+ 
+bindsym $mod+Shift+c reload 
+bindsym $mod+Shift+r restart 
+
+bindsym $mod+shift+e mode "$mode_system"
+bindsym $mod+r mode "resize"
+
+client.focused #00FF00 #00FF00 #00FF00 #00FF00
+
+#-- Functions and stuff --#
+
+# Beter i3 Exit
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (p) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id i3lock, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym p exec --no-startup-id systemctl poweroff, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+ 
+# resize window (you can also use the mouse for that)
+mode "resize" {
+         # same bindings, but for the arrow keys
+    bindsym Left resize shrink width 1 px or 1 ppt
+    bindsym Down resize grow height 1 px or 1 ppt
+    bindsym Up resize shrink height 1 px or 1 ppt
+    bindsym Right resize grow width 1 px or 1 ppt
+
+    # same bindings, but for the arrow keys
+	bindsym Control+Left resize shrink width 5 px or 5 ppt
+	bindsym Control+Down resize grow height 5 px or 5 ppt
+	bindsym Control+Up resize shrink height 5 px or 5 ppt
+	bindsym Control+Right resize grow width 5 px or 5 ppt
+ 
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+ 
+bar {
+ 
+	status_command i3blocks -c ~/.config/i3/i3blocks.conf
+	tray_output DVI-D-0
+    separator_symbol " "
+    position top
+    colors {
+          separator $base03
+          background #000000
+          statusline $base05
+    #                  border  background text
+    focused_workspace  $base05 $base05 #000000
+    active_workspace   $base05 $base05 #000000
+    inactive_workspace #000000 #000000 #C6E3F3
+    urgent_workspace   $base01 $base01 #000000
+        }
+}
+
+# Remove Title bars
+for_window [class="^.*"] border pixel 2
+for_window [class="gimp"] border pixel 7 
+
+# Set gaps
+gaps inner 10
+gaps outer 10
+
+# Disable title bars totally
+new_window 1pixel
+
+# Restore pywal after reboot
+#exec_always --no-startup-id wal -R
+
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+
+# Media player controls
+bindsym XF86AudioPlay exec playerctl play-pause 
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+##################
+## Custom Binds ##
+##################
+
+# i3lock
+bindsym $mod+shift+x exec i3lock -c 000000
+ 
+# firefox
+bindsym $mod+o exec firefox
+
+# qutebrowser
+bindsym $mod+shift+o exec qutebrowser
+
+# ranger
+bindsym $mod+b exec termite -e ranger
+
+# weechat
+bindsym $mod+c exec urxvt -e weechat
+
+# Compton
+exec_always compton --config ~/.config/compton/compton.conf -b
