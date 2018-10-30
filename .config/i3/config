@@ -2,7 +2,7 @@
 set $mod Mod1
 
 #-- Font config --#
-font xft:GohuFont
+#font xft:GohuFont
  
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -10,7 +10,7 @@ floating_modifier $mod
 #-- Keybinds --#
 bindsym $mod+Return exec termite 	
 bindsym $mod+Shift+q kill
-bindsym $mod+d exec rofi -show run -theme android_notification # App search
+bindsym $mod+d exec --no-startup-id 	~/scripts/dmenu-settings.sh
 
 # Change focus
 bindsym $mod+h focus left	
@@ -92,7 +92,7 @@ client.focused #00FF00 #00FF00 #00FF00 #00FF00
 
 #-- Functions and stuff --#
 
-# Beter i3 Exit
+# Better i3 Exit
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (p) shutdown
 mode "$mode_system" {
     bindsym l exec --no-startup-id i3lock, mode "default"
@@ -128,10 +128,10 @@ mode "resize" {
 }
  
 bar {
- 
+	font xft:GohuFont
 	status_command i3blocks -c ~/.config/i3/i3blocks.conf
 	tray_output DVI-D-0
-    separator_symbol " "
+    separator_symbol " < "
     position top
     colors {
           separator $base03
@@ -147,7 +147,6 @@ bar {
 
 # Remove Title bars
 for_window [class="^.*"] border pixel 2
-for_window [class="gimp"] border pixel 7 
 
 # Set gaps
 gaps inner 10
@@ -155,9 +154,6 @@ gaps outer 10
 
 # Disable title bars totally
 new_window 1pixel
-
-# Restore pywal after reboot
-#exec_always --no-startup-id wal -R
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
@@ -176,12 +172,6 @@ bindsym XF86AudioPrev exec playerctl previous
 # i3lock
 bindsym $mod+shift+x exec i3lock -c 000000
  
-# firefox
-bindsym $mod+o exec firefox
-
-# qutebrowser
-bindsym $mod+shift+o exec qutebrowser
-
 # ranger
 bindsym $mod+b exec termite -e ranger
 
